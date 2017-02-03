@@ -2,6 +2,10 @@
 
 An easy-to-use RESTful API for Laravel 5
 
+## Supported API Versions
+
+This package supports both v3 and v5 of the Twitch API, and defaults to using v5.
+
 ## Installation
 
 ```bash
@@ -34,6 +38,7 @@ It's recommended to add these variables in your `.env` file.
 TWITCH_KEY=
 TWITCH_SECRET=
 TWITCH_REDIRECT_URI=
+TWITCH_API_VERSION=
 ```
 
 ## Documentation

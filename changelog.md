@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+
+- Support both v3 and v5 of the Twitch API. Defaults to v5 if not specifically set.
+
 ## 1.3.5
 - Function name fix.
 
@@ -14,11 +18,11 @@
 
 ## 1.3.2
 
-Improved headers and URL parameters.
+- Improved headers and URL parameters.
 
 ## 1.3.1
 
-Small authentication function fixes
+- Small authentication function fixes
 
 ## 1.3.0
 
