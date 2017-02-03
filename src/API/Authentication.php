@@ -17,7 +17,7 @@ class Authentication extends Api
      */
     public function getAuthenticationUrl($state = null, $forceVerify = false)
     {
-        return 'https://api.twitch.tv/kraken/oauth2/authorize?response_type=code'
+        return $this->baseUri.'oauth2/authorize?response_type=code'
         .'&client_id='.config('twitch-api.client_id')
         .'&redirect_uri='.config('twitch-api.redirect_url')
         .'&scope='.implode(config('twitch-api.scopes'), '+')

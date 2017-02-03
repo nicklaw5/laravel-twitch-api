@@ -31,6 +31,13 @@ class Api
     protected $client;
 
     /**
+     * Twitch base URI
+     *
+     * @var baseUri
+     */
+     protected $baseUri = 'https://api.twitch.tv/kraken/';
+
+    /**
      * Construction.
      *
      * @param string $token    Twitch OAuth Token
@@ -53,7 +60,7 @@ class Api
 
         // GuzzleHttp Client with default parameters.
         $this->client = new Client([
-            'base_uri' => 'https://api.twitch.tv/kraken/',
+            'base_uri' => $this->baseUri,
         ]);
     }
 
