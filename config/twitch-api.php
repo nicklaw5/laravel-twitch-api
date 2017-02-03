@@ -4,6 +4,7 @@ return [
     'client_id' => env('TWITCH_KEY', ''),
     'client_secret' => env('TWITCH_SECRET', ''),
     'redirect_url' => env('TWITCH_REDIRECT_URI', ''),
+    'api_version' => env('TWITCH_API_VERSION', ''),
     'scopes' => [
         'user_read',
         'user_blocks_edit',

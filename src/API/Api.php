@@ -4,6 +4,7 @@ namespace Zarlach\TwitchApi\API;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Zarlach\TwitchApi\Exceptions\InvalidApiVersionException;
 use Zarlach\TwitchApi\Exceptions\RequestRequiresAuthenticationException;
 use Zarlach\TwitchApi\Exceptions\RequestRequiresClientIdException;
 
@@ -26,24 +27,32 @@ class Api
     /**
      * Guzzle is used to make http requests.
      *
-     * @var GuzzleClient
+     * @var Client
      */
     protected $client;
 
     /**
-     * Twitch base URI
+     * Twitch base URI.
      *
      * @var baseUri
      */
      protected $baseUri = 'https://api.twitch.tv/kraken/';
 
+     /**
+      * Twitch API version.
+      *
+      * @var apiVersion
+      */
+     protected $apiVersion = 5;
+
     /**
      * Construction.
      *
-     * @param string $token    Twitch OAuth Token
-     * @param string $clientId Twitch client id
+     * @param string         $token      Twitch OAuth Token
+     * @param string         $clientId   Twitch client id
+     * @param string|integer $apiVersion Twitch API version
      */
-    public function __construct($token = null, $clientId = null)
+    public function __construct($token = null, $clientId = null, $apiVersion = null)
     {
 
         // Set token if given
@@ -58,10 +67,33 @@ class Api
             $this->setClientId(config('twitch-api.client_id'));
         }
 
+        // Set API version if given
+        if ($apiVersion) {
+            $this->setApiVersion($apiVersion);
+        } elseif (config('twitch-api.api_version')) {
+            $this->setApiVersion(config('twitch-api.api_version'));
+        }
+
         // GuzzleHttp Client with default parameters.
         $this->client = new Client([
             'base_uri' => $this->baseUri,
         ]);
+    }
+
+    /**
+     * Set apiVersion.
+     *
+     * @param string|integer $apiVersion Twitch API version
+     */
+    public function setApiVersion($apiVersion)
+    {
+        $availableVersions = [3, 5];
+
+        if (!in_array($apiVersion = intval($apiVersion), $availableVersions)) {
+            throw new InvalidApiVersionException();
+        }
+
+        $this->apiVersion = $apiVersion;
     }
 
     /**
@@ -160,7 +192,7 @@ class Api
         $data = [
           'headers' => [
             'Client-ID' => $this->getClientId(),
-            'Accept' => 'application/vnd.twitchtv.v3+json',
+            'Accept' => 'application/vnd.twitchtv.v'.$this->apiVersion.'+json',
           ],
         ];
 
